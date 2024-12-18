@@ -110,12 +110,12 @@ class Rwkv6SelfAttention(nn.Module):
         batch_size, seq_length, _ = x.size()
         assert batch_size == 1
         if seq_length == 1:
-            state1_out = x
+            state1_out = x.view(batch_size, self.hidden_size)
             sx = self.sub_shift(state1, x)
         else:
             past = torch.cat([state1.unsqueeze(1), x[:, :-1, :]], dim=1)
             sx = self.sub_shift(past, x)
-            state1_out = x[:, -1, :]
+            state1_out = x[:, -1, :].view(batch_size, self.hidden_size)
 
         xxx = self.add_time_maa(x, self.mul_time_maa(sx, self.time_maa_x))
         if self.concated_maa_x:
@@ -218,12 +218,12 @@ class Rwkv6FeedForward(nn.Module):
         batch_size, seq_length, _ = x.size()
         assert batch_size == 1
         if seq_length == 1:
-            state_out = x
+            state_out = x.view(batch_size, self.hidden_size)
             sx = self.sub_shifted(state, x)
         else:
             past = torch.cat([state.unsqueeze(1), x[:, :-1, :]], dim=1)
             sx = self.sub_shifted(past, x)
-            state_out = x[:, -1, :]
+            state_out = x[:, -1, :].view(batch_size, self.hidden_size)
 
         xk = self.add_time_maa_k(x, self.mul_time_maa_k(sx, self.time_maa_k))
         xr = self.add_time_maa_r(x, self.mul_time_maa_r(sx, self.time_maa_r))

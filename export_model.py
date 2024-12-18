@@ -24,7 +24,7 @@ model_args.MODEL_NAME = str(parser_args.model).replace('.pth', '')
 model = RWKV_RNN(model_args)
 
 output_dir = 'output'
-output_path = str(output_dir / Path(os.path.basename(model_args.MODEL_NAME).replace('.pth', '.onnx'))
+output_path = str(output_dir / Path(os.path.basename(model_args.MODEL_NAME).replace('.pth', '') + '.onnx')
 )
 dummy_input = get_dummy_input_for_rwkv_causal_llm(1, 1, model.device, model.args)
 os.path.exists(output_dir) or os.makedirs(output_dir)

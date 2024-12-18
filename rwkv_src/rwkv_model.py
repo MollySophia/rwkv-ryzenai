@@ -11,22 +11,6 @@ from rwkv_src.rwkv_v6_modules import Rwkv6SelfAttention, Rwkv6FeedForward
 from rwkv_src.rwkv_v5_modules import Rwkv5SelfAttention, Rwkv5FeedForward
 from rwkv_src.rwkv_v7_modules import Rwkv7SelfAttention, Rwkv7FeedForward
 
-def sample_logits(out, temperature=1.0, top_p=0.8, top_k=128):
-    probs = F.softmax(out, dim=-1).squeeze().cpu().numpy()
-    if top_k == 0:
-        return np.argmax(probs)
-    sorted_probs = np.sort(probs)[::-1]
-    cumulative_probs = np.cumsum(sorted_probs)
-    cutoff = float(sorted_probs[np.argmax(cumulative_probs > top_p)])
-    probs[probs < cutoff] = 0
-    cutoff = sorted_probs[top_k]
-    probs[probs < cutoff] = 0
-    if temperature != 1.0:
-        probs = torch.tensor(probs).pow(1.0 / temperature).numpy()
-    probs = probs / np.sum(probs)
-    out = np.random.choice(a=len(probs), p=probs)
-    return out
-
 def check_rwkv_info(state_dict):
     n_layer = 0
     version = 5
