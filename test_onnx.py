@@ -15,11 +15,11 @@ def get_apu_info():
     stdout, stderr = process.communicate()
     # Check for supported Hardware IDs
     apu_type = ''
-    if 'PCI\\VEN_1022&DEV_1502&REV_00' in stdout.decode(): apu_type = 'PHX/HPT'
-    if 'PCI\\VEN_1022&DEV_17F0&REV_00' in stdout.decode(): apu_type = 'STX'
-    if 'PCI\\VEN_1022&DEV_17F0&REV_10' in stdout.decode(): apu_type = 'STX'
-    if 'PCI\\VEN_1022&DEV_17F0&REV_11' in stdout.decode(): apu_type = 'STX'
-    if 'PCI\\VEN_1022&DEV_17F0&REV_20' in stdout.decode(): apu_type = 'KRK'
+    if 'PCI\\VEN_1022&DEV_1502&REV_00' in stdout.decode(errors="ignore"): apu_type = 'PHX/HPT'
+    if 'PCI\\VEN_1022&DEV_17F0&REV_00' in stdout.decode(errors="ignore"): apu_type = 'STX'
+    if 'PCI\\VEN_1022&DEV_17F0&REV_10' in stdout.decode(errors="ignore"): apu_type = 'STX'
+    if 'PCI\\VEN_1022&DEV_17F0&REV_11' in stdout.decode(errors="ignore"): apu_type = 'STX'
+    if 'PCI\\VEN_1022&DEV_17F0&REV_20' in stdout.decode(errors="ignore"): apu_type = 'KRK'
     return apu_type
 
 def set_environment_variable(apu_type):
