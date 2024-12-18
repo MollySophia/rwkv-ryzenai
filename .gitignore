@@ -1,0 +1,6 @@
+output/
+.pkl_memoize_py3/
+*.pyc
+__pycache__
+.vscode/
+*.pth
